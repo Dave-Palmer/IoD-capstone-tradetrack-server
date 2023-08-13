@@ -2,8 +2,9 @@ const express = require("express");
 const router = express.Router();
 const Controllers = require("../controllers");
 // let uploadFile = require("../middleware/uploads");
+const { storage } = require("../cloudinary");
+const multer = require("multer");
 const upload = multer({ storage });
-
 router.get("/", (req, res) => {
   Controllers.vehicleController.getVehicles(res);
 });
