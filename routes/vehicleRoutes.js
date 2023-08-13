@@ -1,7 +1,8 @@
-let express = require("express");
-let router = express.Router();
-let Controllers = require("../controllers");
-let uploadFile = require("../middleware/uploads");
+const express = require("express");
+const router = express.Router();
+const Controllers = require("../controllers");
+// let uploadFile = require("../middleware/uploads");
+const upload = multer({ storage });
 
 router.get("/", (req, res) => {
   Controllers.vehicleController.getVehicles(res);
@@ -11,7 +12,7 @@ router.get("/:id", (req, res) => {
   Controllers.vehicleController.getVehicle(req, res);
 });
 
-router.post("/create", uploadFile, (req, res) => {
+router.post("/create", upload.single("file"), (req, res) => {
   Controllers.vehicleController.createVehicle(req, res);
 });
 

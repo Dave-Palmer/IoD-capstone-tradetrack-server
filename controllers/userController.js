@@ -19,11 +19,9 @@ const filterNames = (userData) => {
 const createUser = async (req, res) => {
   try {
     const { firstName, lastName, email, password, phone } = req.body;
-
     if (!(email && password && firstName && lastName)) {
       res.status(400).send("All inputs are required");
     }
-
     const oldUser = await Models.User.findOne({ email });
     if (oldUser) {
       return res.status(409).send({ result: "User Already Exists" });
@@ -38,7 +36,6 @@ const createUser = async (req, res) => {
       password: encryptedPassword,
       phone,
     });
-
     // Create token
     const token = jwt.sign({ user_id: user._id, email }, process.env.JWT_KEY, {
       expiresIn: "2h",

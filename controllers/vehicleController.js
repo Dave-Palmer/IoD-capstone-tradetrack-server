@@ -1,5 +1,6 @@
 "use strict";
-let Models = require("../models");
+const Models = require("../models");
+const { cloudinary } = require("../cloudinary");
 
 const getVehicles = (res) => {
   Models.Vehicle.find({})
@@ -21,7 +22,8 @@ const getVehicle = (req, res) => {
 };
 
 const createVehicle = (req, res) => {
-  const { filename } = req.file; // extract the file name seperately in order to save the path in the database
+  const fileUrl = req.file.path;
+  const fileName = req.file.filename;
   const { assignedTo, make, model, plate, odo, wof, rego, rucs } = req.body;
   const newVehicle = {
     assignedTo: assignedTo,
@@ -32,7 +34,7 @@ const createVehicle = (req, res) => {
     wof: wof,
     rego: rego,
     rucs: rucs,
-    photo: process.env.IMG_PATH + filename,
+    photo: { url: fileUrl, fileName: fileName },
   };
   new Models.Vehicle(newVehicle)
     .save()
@@ -54,14 +56,15 @@ const updateVehicle = (req, res) => {
     });
 };
 
-const deleteVehicle = (req, res) => {
-  console.log(req.params.id);
-  Models.Vehicle.findOneAndDelete({ _id: req.params.id })
-    .then((data) => res.send({ result: 200, data: data }))
-    .catch((err) => {
-      console.log(err);
-      res.send({ result: 500, error: err.message });
-    });
+const deleteVehicle = async (req, res) => {
+  try {
+    const id = req.params.id;
+    const deletedItem = await Models.Vehicle.findOneAndDelete({ _id: id });
+    await cloudinary.uploader.destroy(deletedItem.photo.fileName);
+    res.send({ result: 200, data: data });
+  } catch (err) {
+    res.send({ result: 500, error: err.message });
+  }
 };
 
 module.exports = {

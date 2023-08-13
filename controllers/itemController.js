@@ -1,7 +1,7 @@
 const { cloudinary } = require("../cloudinary");
 
 ("use strict");
-let Models = require("../models"); //matches index.js
+const Models = require("../models"); //matches index.js
 
 const getItems = (res) => {
   Models.Item.find({})
