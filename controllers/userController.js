@@ -4,17 +4,17 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
 //function to send just the first and last names of each user
-const filterNames = (userData) => {
-  let usersNames = [];
-  for (let user of userData) {
-    let names = {
-      firstName: user.firstName,
-      lastName: user.lastName,
-    };
-    usersNames.push(names);
-  }
-  return usersNames;
-};
+// const filterNames = (userData) => {
+//   let usersNames = [];
+//   for (let user of userData) {
+//     let names = {
+//       firstName: user.firstName,
+//       lastName: user.lastName,
+//     };
+//     usersNames.push(names);
+//   }
+//   return usersNames;
+// };
 
 const createUser = async (req, res) => {
   try {
@@ -83,7 +83,7 @@ const loginUser = async (req, res) => {
 const getUsers = (res) => {
   Models.User.find({ admin: false })
     .then((data) => {
-      res.send({ result: 200, data: data }), filterNames(data);
+      res.send({ result: 200, data: data });
     })
     .catch((err) => {
       console.log(err);
@@ -165,16 +165,16 @@ const createAdminUser = async () => {
 
 const getAdminLoginInfo = (req, res) => {
   const data = {
-    email: process.env.ADMIN_LOGIN_NAME,
-    password: process.env.ADMIN_LOGIN_PASSWORD,
+    email: "dave@palmer.com",
+    password: "dave",
   };
   res.send(data);
 };
 
 const getStaffLoginInfo = (req, res) => {
   const data = {
-    email: process.env.STAFF_LOGIN_NAME,
-    password: process.env.STAFF_LOGIN_PASSWORD,
+    email: "rowan@thompson.com",
+    password: "rowan",
   };
   res.send(data);
 };
