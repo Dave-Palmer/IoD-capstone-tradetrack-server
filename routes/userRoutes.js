@@ -11,6 +11,14 @@ router.get("/usernames", auth, (req, res) => {
   Controllers.userController.getAllUserNames(req, res);
 });
 
+router.get("/demoadminlogin", (req, res) => {
+  Controllers.userController.getAdminLoginInfo(req, res);
+});
+
+router.get("/demostafflogin", (req, res) => {
+  Controllers.userController.getStaffLoginInfo(req, res);
+});
+
 router.post("/create", auth, (req, res) => {
   Controllers.userController.createUser(req, res);
 });

@@ -103,7 +103,8 @@ const getUser = (req, res) => {
 
 const getAllUserNames = (req, res) => {
   Models.User.find({ admin: false })
-    .then((data) => res.send({ result: 200, data: filterNames(data) }))
+    .select("firstName lastName")
+    .then((data) => res.send({ result: 200, data: data }))
     .catch((err) => {
       console.log(err);
       res.send({ result: 500, error: err.message });
@@ -162,6 +163,22 @@ const createAdminUser = async () => {
   }
 };
 
+const getAdminLoginInfo = (req, res) => {
+  const data = {
+    email: process.env.ADMIN_LOGIN_NAME,
+    password: process.env.ADMIN_LOGIN_PASSWORD,
+  };
+  res.send(data);
+};
+
+const getStaffLoginInfo = (req, res) => {
+  const data = {
+    email: process.env.STAFF_LOGIN_NAME,
+    password: process.env.STAFF_LOGIN_PASSWORD,
+  };
+  res.send(data);
+};
+
 module.exports = {
   createUser,
   deleteUser,
@@ -171,4 +188,6 @@ module.exports = {
   getAllUserNames,
   loginUser,
   createAdminUser,
+  getAdminLoginInfo,
+  getStaffLoginInfo,
 };
