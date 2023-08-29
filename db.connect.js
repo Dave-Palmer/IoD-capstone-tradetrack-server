@@ -10,7 +10,6 @@ const mongooseOptions = {
 Mongoose.connect(uri, mongooseOptions)
   .then(() => {
     console.log("MongoDB Connected");
-    controllers.userController.createAdminUser();
   })
   .catch((error) => console.log("MongoDB Error: " + error.message));
 // Get the default connection

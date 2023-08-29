@@ -21,6 +21,15 @@ const getVehicle = (req, res) => {
     });
 };
 
+const getReportedVehicles = (res) => {
+  Models.Vehicle.find({ alert: true })
+    .then((data) => res.send({ result: 200, data: data }))
+    .catch((err) => {
+      console.log(err);
+      res.send({ result: 500, error: err.message });
+    });
+};
+
 const createVehicle = (req, res) => {
   const fileUrl = req.file.path;
   const fileName = req.file.filename;
@@ -73,4 +82,5 @@ module.exports = {
   getVehicles,
   getVehicle,
   updateVehicle,
+  getReportedVehicles,
 };

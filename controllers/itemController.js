@@ -22,6 +22,27 @@ const getItem = (req, res) => {
     });
 };
 
+const getReportedItems = (req, res) => {
+  Models.Item.find({ alert: true })
+    .then((data) => res.send({ result: 200, data: data }))
+    .catch((err) => {
+      console.log(err);
+      res.send({ result: 500, error: err.message });
+    });
+};
+
+const getNumOfAlerts = async (req, res) => {
+  let numOfAlerts;
+  try {
+    const itemsCount = await Models.Item.count({ alert: true });
+    const vehiclesCount = await Models.Vehicle.count({ alert: true });
+    numOfAlerts = itemsCount + vehiclesCount;
+    res.send({ numOfAlerts });
+  } catch (err) {
+    res.send({ result: 500, error: err.message });
+  }
+};
+
 const createItem = (req, res) => {
   const fileUrl = req.file.path;
   const fileName = req.file.filename;
@@ -70,4 +91,6 @@ module.exports = {
   getItems,
   getItem,
   updateItem,
+  getReportedItems,
+  getNumOfAlerts,
 };

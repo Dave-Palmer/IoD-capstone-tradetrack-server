@@ -5,8 +5,13 @@ const Controllers = require("../controllers");
 const { storage } = require("../cloudinary");
 const multer = require("multer");
 const upload = multer({ storage });
+
 router.get("/", (req, res) => {
   Controllers.vehicleController.getVehicles(res);
+});
+
+router.get("/reportedvehicles", (req, res) => {
+  Controllers.vehicleController.getReportedVehicles(res);
 });
 
 router.get("/:id", (req, res) => {

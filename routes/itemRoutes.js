@@ -10,6 +10,14 @@ router.get("/", (req, res) => {
   Controllers.itemController.getItems(res);
 });
 
+router.get("/reporteditems", (req, res) => {
+  Controllers.itemController.getReportedItems(req, res);
+});
+
+router.get("/numalerts", (req, res) => {
+  Controllers.itemController.getNumOfAlerts(req, res);
+});
+
 router.get("/:id", (req, res) => {
   Controllers.itemController.getItem(req, res);
 });
